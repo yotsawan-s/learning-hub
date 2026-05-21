@@ -292,10 +292,17 @@ label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size:
   letter-spacing: 0.3px;
 }
 
-.diagram svg {
+.diagram svg,
+.diagram .mermaid-img {
   max-width: 100%;
   height: auto;
-  font-family: -apple-system, "Segoe UI", "Sarabun", sans-serif !important;
+  display: block;
+  margin: 0 auto;
+}
+.diagram .mermaid-img {
+  border-radius: 6px;
+  min-height: 80px;
+  background: #FFFFFF;
 }
 
 /* บังคับสีตัวอักษร — ดำเข้มเสมอ บนพื้นขาว */

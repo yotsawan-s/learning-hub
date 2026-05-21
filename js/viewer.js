@@ -1,21 +1,37 @@
-// Lesson viewer — render Markdown + Mermaid + Export
+// Lesson viewer — render Markdown + Mermaid (via mermaid.ink) + Export
 import { marked } from "https://esm.sh/marked@13.0.3";
-import mermaid from "https://esm.sh/mermaid@11.2.1";
 import { sanitizeHTML, escapeText } from "./security.js";
 
-let mermaidInited = false;
-function initMermaid() {
-  // ใช้ theme "neutral" + light boxes เสมอ (ไม่ขึ้นกับ dark/light page)
-  // เหมือนที่ GitHub/Notion ทำ — Mermaid default readable ที่สุด
-  mermaid.initialize({
-    startOnLoad: false,
-    theme: "neutral",
-    securityLevel: "loose",
-    flowchart: { curve: "basis", htmlLabels: true, useMaxWidth: true },
-    sequence: { useMaxWidth: true },
-    fontFamily: '-apple-system, "Segoe UI", "Sarabun", sans-serif',
-  });
-  mermaidInited = true;
+// ============================================================
+// Mermaid via mermaid.ink — server-rendered image (rock-solid)
+// แปลง code เป็น base64 → ใส่ใน <img src="https://mermaid.ink/svg/...">
+// ============================================================
+function toBase64Url(str) {
+  // UTF-8 safe base64 (รองรับภาษาไทย)
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function mermaidImageURL(code, format = "svg") {
+  // Inject config สำหรับ theme + font ขนาดใหญ่
+  const configured = `%%{init: {
+    "theme":"neutral",
+    "themeVariables": {
+      "fontFamily":"-apple-system, Segoe UI, Sarabun, sans-serif",
+      "fontSize":"18px",
+      "primaryColor":"#FAF8F3",
+      "primaryTextColor":"#1A1A1A",
+      "primaryBorderColor":"#B8860B",
+      "lineColor":"#666666",
+      "secondaryColor":"#FFF8DC",
+      "tertiaryColor":"#FFFFFF"
+    },
+    "flowchart":{"curve":"basis","htmlLabels":true,"useMaxWidth":true}
+  } }%%\n${code}`;
+  const encoded = toBase64Url(configured);
+  return `https://mermaid.ink/${format}/${encoded}?bgColor=FFFFFF`;
 }
 
 export async function renderMarkdown(md) {
@@ -25,10 +41,16 @@ export async function renderMarkdown(md) {
 }
 
 export async function renderMermaid(code, id) {
-  if (!mermaidInited) initMermaid(document.documentElement.dataset.theme || "gold-dark");
+  if (!code || typeof code !== "string") return "";
   try {
-    const { svg } = await mermaid.render(`m_${id}_${Math.random().toString(36).slice(2)}`, code);
-    return svg;
+    const svgUrl = mermaidImageURL(code, "svg");
+    const pngUrl = mermaidImageURL(code, "img");
+    // SVG preferred, fallback to PNG ถ้า SVG ล้มเหลว
+    return `<img class="mermaid-img"
+      src="${escapeText(svgUrl)}"
+      onerror="this.onerror=null;this.src='${escapeText(pngUrl)}';"
+      alt="diagram"
+      loading="lazy">`;
   } catch (e) {
     return `<pre class="error">Mermaid error: ${escapeText(e.message)}</pre>`;
   }

@@ -4,14 +4,15 @@
 
 ## ✨ Features
 
-- 🤖 **AI-generated lessons** — สร้างบทเรียนตามหัวข้อที่ขอ
+- 🤖 **AI-generated lessons** — สร้างบทเรียนตามหัวข้อที่ขอ (Tool Use structured output)
 - 🌐 **Web Search** — เนื้อหาทันสมัย (auto detect)
 - 📚 **4-Part Structure** — Basic / Advance / Teaching Notes / Pro Tips
-- 🎭 **Visual aids** — Analogy + Mermaid diagrams + Examples
+- 🎭 **Visual aids** — Analogy cards + Mermaid diagrams + Code examples
+- 📐 **Reading-first layout** — max-width 820px column, IBM Plex Sans Thai (สไตล์ Learn AI)
 - ⭐ **Bookmark + History** — เก็บทุกบทเรียนใน cloud
 - 📄 **Export** — Markdown และ PDF (เอาไปสอนต่อ)
 - 🌙 **Dual theme** — Executive Gold Dark/Light
-- 🔐 **Security-first** — API key อยู่ฝั่ง server เท่านั้น
+- 🔐 **Security-first** — API key อยู่ฝั่ง server เท่านั้น (Defense in Depth 10 layers)
 
 ## 📂 Categories
 
@@ -32,11 +33,13 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** HTML + JS Modules + Executive Gold CSS
+- **Frontend:** HTML + JS Modules + Executive Gold CSS (Learn AI-style layout)
+- **Typography:** IBM Plex Sans Thai + Inter (Google Fonts)
 - **Auth/DB:** Supabase (Project: Learn ENG)
-- **AI Proxy:** Supabase Edge Function (Deno)
+- **AI Proxy:** Supabase Edge Function (Deno) + Tool Use structured output
 - **AI Model:** Claude Opus (claude-opus-4-5)
-- **Render:** marked.js + mermaid.js + DOMPurify
+- **Markdown:** marked.js + DOMPurify (XSS-safe)
+- **Diagrams:** **mermaid.ink** (server-side PNG/SVG, no client render)
 - **Export:** html2pdf.js
 - **Deploy:** GitHub Pages (frontend) + Supabase (backend)
 

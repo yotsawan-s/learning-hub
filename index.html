@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="th" data-theme="gold-dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://esm.sh https://cdn.jsdelivr.net https://deno.land;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    connect-src 'self' https://*.supabase.co https://esm.sh;
+    font-src 'self' data:;
+    object-src 'none';
+    base-uri 'self';
+    frame-ancestors 'none';
+  ">
+  <title>Learning Hub · AI Tutor</title>
+  <link rel="stylesheet" href="styles/executive-gold.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand"><span class="icon">✦</span> Learning Hub <span class="muted" style="font-size:14px;font-weight:400;">· AI Tutor</span></div>
+      <div class="toolbar">
+        <button id="btn-theme" class="btn-ghost" title="Toggle theme">🌙</button>
+        <button id="btn-logout" class="btn-ghost hidden">Logout</button>
+      </div>
+    </header>
+
+    <!-- ====================== Auth ====================== -->
+    <section id="view-auth" class="hidden">
+      <div class="auth-card">
+        <h2>✦ เข้าสู่ระบบ</h2>
+        <p class="muted">เข้าสู่ระบบเพื่อสร้างและจัดเก็บบทเรียนของคุณ</p>
+        <label for="auth-email">Email</label>
+        <input type="email" id="auth-email" autocomplete="email">
+        <label for="auth-pass">Password</label>
+        <input type="password" id="auth-pass" autocomplete="current-password">
+        <button id="btn-login">เข้าสู่ระบบ</button>
+        <button id="btn-signup" class="btn-ghost" style="margin-top:8px;">สมัครใหม่</button>
+        <p id="auth-msg" class="error center" style="margin-top:12px;"></p>
+      </div>
+    </section>
+
+    <!-- ====================== Main App ====================== -->
+    <main id="view-main" class="hidden">
+
+      <!-- Request Lesson -->
+      <section class="card">
+        <h3 class="card-title">🎓 สร้างบทเรียนใหม่</h3>
+
+        <label>เลือกหมวด</label>
+        <div id="cat-pills" class="cat-pills"></div>
+
+        <label for="topic-input">หัวข้อที่อยากเรียน (พิมพ์อะไรก็ได้)</label>
+        <input type="text" id="topic-input" placeholder="เช่น: MCP Server คืออะไร, Prompt Caching, Agent Loop" maxlength="200">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+          <div>
+            <label for="sel-level">ระดับ</label>
+            <select id="sel-level">
+              <option value="mixed">Basic + Advance (แนะนำ)</option>
+              <option value="basic">Basic เท่านั้น</option>
+              <option value="advance">Advance เท่านั้น</option>
+            </select>
+          </div>
+          <div>
+            <label for="sel-search">Web Search</label>
+            <select id="sel-search">
+              <option value="auto">Auto (ระบบตัดสินใจ)</option>
+              <option value="on">เปิดเสมอ (ข้อมูลสด)</option>
+              <option value="off">ปิด (เร็วกว่า)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button id="btn-generate">▶️ สร้างบทเรียน</button>
+          <button id="btn-random" class="btn-ghost">🎲 สุ่มหัวข้อ</button>
+        </div>
+        <p id="gen-status" class="muted"></p>
+      </section>
+
+      <!-- Lesson Viewer -->
+      <section id="view-lesson" class="card hidden">
+        <div class="toolbar">
+          <button id="btn-bookmark" class="btn-ghost">⭐ Bookmark</button>
+          <button id="btn-export-md" class="btn-ghost">📄 Export .md</button>
+          <button id="btn-export-pdf" class="btn-ghost">📑 Export PDF</button>
+          <button id="btn-close-lesson" class="btn-ghost">✕ ปิด</button>
+        </div>
+        <div id="lesson-content"></div>
+        <div id="lesson-quiz"></div>
+      </section>
+
+      <!-- History -->
+      <section class="card">
+        <h3 class="card-title">📜 บทเรียนของฉัน</h3>
+        <div class="toolbar">
+          <button id="filter-all" class="btn-ghost">ทั้งหมด</button>
+          <button id="filter-bookmark" class="btn-ghost">⭐ Bookmark</button>
+        </div>
+        <div id="history-list"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

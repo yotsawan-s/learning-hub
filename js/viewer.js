@@ -49,12 +49,11 @@ export async function renderMarkdown(md) {
 export async function renderMermaid(code, id) {
   if (!code || typeof code !== "string") return "";
   try {
-    const svgUrl = mermaidImageURL(code, "svg");
-    const pngUrl = mermaidImageURL(code, "img");
-    // SVG preferred, fallback to PNG ถ้า SVG ล้มเหลว
+    const pngUrl = mermaidImageURL(code, "img");   // PNG (primary — เสถียร)
+    const svgUrl = mermaidImageURL(code, "svg");   // SVG (fallback — vector)
     return `<img class="mermaid-img"
-      src="${escapeText(svgUrl)}"
-      onerror="this.onerror=null;this.src='${escapeText(pngUrl)}';"
+      src="${escapeText(pngUrl)}"
+      onerror="this.onerror=null;this.src='${escapeText(svgUrl)}';"
       alt="diagram"
       loading="lazy">`;
   } catch (e) {

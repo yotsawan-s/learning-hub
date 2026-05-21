@@ -269,66 +269,80 @@ label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size:
 .example-scenario { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
 .example-output { color: var(--text-muted); font-size: 13px; margin-top: 8px; }
 
+/* ============================================================
+   Diagram container — ใช้พื้นขาวเสมอ (เหมือน GitHub/Notion)
+   เพื่อให้ Mermaid neutral theme อ่านง่ายไม่ว่า page จะ dark/light
+   ============================================================ */
 .diagram {
-  background: var(--bg-elev);
+  background: #FFFFFF;
   border-radius: 10px;
-  padding: 18px;
+  padding: 24px 18px;
   margin: 12px 0;
   text-align: center;
-  border: 1px solid var(--border);
+  border: 2px solid var(--gold);
   overflow-x: auto;
-}
-.diagram figcaption { color: var(--gold); font-weight: 600; margin-bottom: 10px; }
-.diagram svg { max-width: 100%; height: auto; }
-
-/* บังคับสี text ใน Mermaid — สำคัญ! ไม่งั้น text จะหายไป */
-[data-theme="gold-dark"] .diagram svg .nodeLabel,
-[data-theme="gold-dark"] .diagram svg .edgeLabel,
-[data-theme="gold-dark"] .diagram svg text,
-[data-theme="gold-dark"] .diagram svg .nodeLabel p,
-[data-theme="gold-dark"] .diagram svg span {
-  color: #FAF8F3 !important;
-  fill: #FAF8F3 !important;
-  font-weight: 500 !important;
+  box-shadow: var(--shadow);
 }
 
-[data-theme="gold-light"] .diagram svg .nodeLabel,
-[data-theme="gold-light"] .diagram svg .edgeLabel,
-[data-theme="gold-light"] .diagram svg text,
-[data-theme="gold-light"] .diagram svg .nodeLabel p,
-[data-theme="gold-light"] .diagram svg span {
+.diagram figcaption {
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+
+.diagram svg {
+  max-width: 100%;
+  height: auto;
+  font-family: -apple-system, "Segoe UI", "Sarabun", sans-serif !important;
+}
+
+/* บังคับสีตัวอักษร — ดำเข้มเสมอ บนพื้นขาว */
+.diagram svg .nodeLabel,
+.diagram svg .nodeLabel p,
+.diagram svg .nodeLabel span,
+.diagram svg .label,
+.diagram svg .label foreignObject div,
+.diagram svg text,
+.diagram svg tspan {
   color: #1A1A1A !important;
   fill: #1A1A1A !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
 }
 
-/* Node ที่เป็น primary (สีทอง) — ใช้ text สีดำเสมอ */
-[data-theme="gold-dark"] .diagram svg .node.default rect,
-[data-theme="gold-light"] .diagram svg .node.default rect {
-  stroke: #D4AF37 !important;
-}
-
-/* Edge label background — ทำให้ text บนเส้นอ่านง่าย */
+/* Edge labels — text บนเส้น */
 .diagram svg .edgeLabel {
-  background-color: var(--bg-card) !important;
-  padding: 2px 6px !important;
-  border-radius: 4px !important;
+  background-color: #FFFFFF !important;
 }
-.diagram svg .edgeLabel rect {
-  fill: var(--bg-card) !important;
-  opacity: 0.9 !important;
+.diagram svg .edgeLabel rect,
+.diagram svg .edgeLabel foreignObject {
+  fill: #FFFFFF !important;
+}
+.diagram svg .edgeLabel .label,
+.diagram svg .edgeLabel text {
+  color: #1A1A1A !important;
+  fill: #1A1A1A !important;
 }
 
-/* Cluster (subgraph) labels */
-[data-theme="gold-dark"] .diagram svg .cluster-label text,
-[data-theme="gold-dark"] .diagram svg .cluster-label .nodeLabel {
-  fill: #D4AF37 !important;
-  color: #D4AF37 !important;
-}
-[data-theme="gold-light"] .diagram svg .cluster-label text,
-[data-theme="gold-light"] .diagram svg .cluster-label .nodeLabel {
-  fill: #B8860B !important;
+/* Subgraph (cluster) titles */
+.diagram svg .cluster-label .nodeLabel,
+.diagram svg .cluster-label text {
   color: #B8860B !important;
+  fill: #B8860B !important;
+  font-weight: 700 !important;
+}
+
+/* Edge lines & arrows */
+.diagram svg .flowchart-link,
+.diagram svg path.flowchart-link {
+  stroke: #999 !important;
+  stroke-width: 1.5px !important;
+}
+.diagram svg marker path {
+  fill: #999 !important;
+  stroke: #999 !important;
 }
 
 /* ============================================================

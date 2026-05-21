@@ -15,12 +15,17 @@ function toBase64Url(str) {
 }
 
 function mermaidImageURL(code, format = "svg") {
-  // Inject config สำหรับ theme + font ขนาดใหญ่
+  // ลบ HTML tags ที่ Claude อาจใส่ใน node labels (กัน font size เพี้ยน)
+  const cleaned = code
+    .replace(/<\/?(?:b|strong|i|em|u|font|span|big|small|h[1-6])[^>]*>/gi, "")
+    .replace(/<br\s*\/?>/gi, "<br/>"); // เหลือแค่ <br/> สำหรับขึ้นบรรทัด
+
+  // htmlLabels: false → บังคับ plain text เท่ากันทุก node
   const configured = `%%{init: {
     "theme":"neutral",
     "themeVariables": {
       "fontFamily":"-apple-system, Segoe UI, Sarabun, sans-serif",
-      "fontSize":"18px",
+      "fontSize":"16px",
       "primaryColor":"#FAF8F3",
       "primaryTextColor":"#1A1A1A",
       "primaryBorderColor":"#B8860B",
@@ -28,8 +33,9 @@ function mermaidImageURL(code, format = "svg") {
       "secondaryColor":"#FFF8DC",
       "tertiaryColor":"#FFFFFF"
     },
-    "flowchart":{"curve":"basis","htmlLabels":true,"useMaxWidth":true}
-  } }%%\n${code}`;
+    "flowchart":{"curve":"basis","htmlLabels":false,"useMaxWidth":true},
+    "sequence":{"useMaxWidth":true}
+  } }%%\n${cleaned}`;
   const encoded = toBase64Url(configured);
   return `https://mermaid.ink/${format}/${encoded}?bgColor=FFFFFF`;
 }

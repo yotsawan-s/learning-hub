@@ -294,15 +294,26 @@ label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size:
 
 .diagram svg,
 .diagram .mermaid-img {
-  max-width: 100%;
+  /* คุมให้ diagram มีขนาดสมจริง — ไม่ stretch ใหญ่/ย่อเล็กเกินไป */
+  width: auto;
+  max-width: min(100%, 720px);  /* cap ที่ 720px เพื่อ font ไม่ใหญ่เกิน */
   height: auto;
   display: block;
   margin: 0 auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 .diagram .mermaid-img {
   border-radius: 6px;
   min-height: 80px;
   background: #FFFFFF;
+}
+
+/* Container เปิด horizontal scroll สำหรับ diagram ใหญ่กว่า 720px */
+.diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* บังคับสีตัวอักษร — ดำเข้มเสมอ บนพื้นขาว */

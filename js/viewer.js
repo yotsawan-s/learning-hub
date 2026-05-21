@@ -5,15 +5,51 @@ import { sanitizeHTML, escapeText } from "./security.js";
 
 let mermaidInited = false;
 function initMermaid(theme) {
+  const isDark = theme === "gold-dark";
   mermaid.initialize({
     startOnLoad: false,
-    theme: theme === "gold-dark" ? "dark" : "default",
+    theme: "base",
     themeVariables: {
+      // Background
+      background: isDark ? "#1F1F1F" : "#FFFFFF",
+      mainBkg: isDark ? "#2A2A2A" : "#FAF8F3",
+      secondBkg: isDark ? "#161616" : "#FFFFFF",
+      tertiaryBkg: isDark ? "#0A0A0A" : "#F5F0E1",
+
+      // Primary (active/current nodes)
       primaryColor: "#D4AF37",
-      primaryTextColor: theme === "gold-dark" ? "#FAF8F3" : "#1A1A1A",
+      primaryTextColor: "#0A0A0A",
+      primaryBorderColor: "#B8860B",
+
+      // Secondary
+      secondaryColor: isDark ? "#3A3A3A" : "#E8DFC9",
+      secondaryTextColor: isDark ? "#FAF8F3" : "#1A1A1A",
+      secondaryBorderColor: "#D4AF37",
+
+      // Tertiary
+      tertiaryColor: isDark ? "#1F1F1F" : "#FAF8F3",
+      tertiaryTextColor: isDark ? "#FAF8F3" : "#1A1A1A",
+      tertiaryBorderColor: "#B8860B",
+
+      // Text everywhere (สำคัญที่สุด — กันข้อความหาย)
+      textColor: isDark ? "#FAF8F3" : "#1A1A1A",
+      nodeTextColor: isDark ? "#FAF8F3" : "#1A1A1A",
+      labelTextColor: isDark ? "#FAF8F3" : "#1A1A1A",
+      titleColor: "#D4AF37",
+
+      // Lines & borders
       lineColor: "#D4AF37",
+      nodeBorder: "#D4AF37",
+      clusterBkg: isDark ? "#161616" : "#FAF8F3",
+      clusterBorder: "#B8860B",
+      defaultLinkColor: "#D4AF37",
+
+      // Misc
+      fontFamily: '-apple-system, "Segoe UI", "Sarabun", sans-serif',
+      fontSize: "14px",
     },
-    securityLevel: "strict",
+    securityLevel: "loose",
+    flowchart: { curve: "basis", htmlLabels: true },
   });
   mermaidInited = true;
 }

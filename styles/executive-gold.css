@@ -281,6 +281,56 @@ label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size:
 .diagram figcaption { color: var(--gold); font-weight: 600; margin-bottom: 10px; }
 .diagram svg { max-width: 100%; height: auto; }
 
+/* บังคับสี text ใน Mermaid — สำคัญ! ไม่งั้น text จะหายไป */
+[data-theme="gold-dark"] .diagram svg .nodeLabel,
+[data-theme="gold-dark"] .diagram svg .edgeLabel,
+[data-theme="gold-dark"] .diagram svg text,
+[data-theme="gold-dark"] .diagram svg .nodeLabel p,
+[data-theme="gold-dark"] .diagram svg span {
+  color: #FAF8F3 !important;
+  fill: #FAF8F3 !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="gold-light"] .diagram svg .nodeLabel,
+[data-theme="gold-light"] .diagram svg .edgeLabel,
+[data-theme="gold-light"] .diagram svg text,
+[data-theme="gold-light"] .diagram svg .nodeLabel p,
+[data-theme="gold-light"] .diagram svg span {
+  color: #1A1A1A !important;
+  fill: #1A1A1A !important;
+  font-weight: 500 !important;
+}
+
+/* Node ที่เป็น primary (สีทอง) — ใช้ text สีดำเสมอ */
+[data-theme="gold-dark"] .diagram svg .node.default rect,
+[data-theme="gold-light"] .diagram svg .node.default rect {
+  stroke: #D4AF37 !important;
+}
+
+/* Edge label background — ทำให้ text บนเส้นอ่านง่าย */
+.diagram svg .edgeLabel {
+  background-color: var(--bg-card) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+.diagram svg .edgeLabel rect {
+  fill: var(--bg-card) !important;
+  opacity: 0.9 !important;
+}
+
+/* Cluster (subgraph) labels */
+[data-theme="gold-dark"] .diagram svg .cluster-label text,
+[data-theme="gold-dark"] .diagram svg .cluster-label .nodeLabel {
+  fill: #D4AF37 !important;
+  color: #D4AF37 !important;
+}
+[data-theme="gold-light"] .diagram svg .cluster-label text,
+[data-theme="gold-light"] .diagram svg .cluster-label .nodeLabel {
+  fill: #B8860B !important;
+  color: #B8860B !important;
+}
+
 /* ============================================================
    Quiz
    ============================================================ */
